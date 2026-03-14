@@ -24,21 +24,10 @@ Screen {
 
 AppHeader {
     dock: top;
-    height: 1;
+    height: 2;
     background: #0d0f18;
     border-bottom: tall #2a2c42;
-    layout: horizontal;
     padding: 0 2;
-}
-
-AppHeader #app-logo {
-    width: 1fr;
-    height: 1;
-}
-
-AppHeader #app-clock {
-    width: auto;
-    height: 1;
 }
 
 
@@ -111,7 +100,7 @@ MainScreen .status-bar {
     height: 1;
     background: #0a0b14;
     border-top: tall #2a2c42;
-    color: #3b3f5c;
+    color: #565f89;
     padding: 0 2;
 }
 
@@ -145,7 +134,7 @@ SnippetList .panel-label {
     height: 1;
     background: #0a0b14;
     border-bottom: tall #1a1c2e;
-    color: #2a2c42;
+    color: #565f89;
     padding: 0 2;
 }
 
@@ -209,26 +198,27 @@ SnippetPreview {
 
 SnippetPreview .preview-pin {
     color: #bb9af7;
-    height: 1;
+    height: auto;
+    margin-bottom: 0;
 }
 
 SnippetPreview .preview-title {
     color: #e0e7ff;
-    height: 1;
-    padding: 0 0 1 0;
+    height: auto;
+    margin-bottom: 1;
     text-style: bold;
 }
 
 SnippetPreview .preview-description {
     color: #565f89;
-    height: 1;
-    padding: 0 0 1 0;
+    height: auto;
+    margin-bottom: 1;
 }
 
 SnippetPreview .preview-tags {
     color: #73daca;
-    height: 1;
-    padding: 0 0 1 0;
+    height: auto;
+    margin-bottom: 1;
 }
 
 SnippetPreview .preview-code-wrap {
@@ -239,9 +229,9 @@ SnippetPreview .preview-code-wrap {
 }
 
 SnippetPreview .preview-meta {
-    color: #3b3f5c;
-    height: 1;
-    padding: 1 0 0 0;
+    color: #565f89;
+    height: auto;
+    margin-top: 1;
 }
 
 SnippetPreview .preview-empty {
@@ -255,7 +245,7 @@ SnippetPreview .preview-empty {
 
 EditScreen {
     align: center middle;
-    background: #0d0f1880;
+    background: #0d0f18;
 }
 
 EditScreen > Vertical {
@@ -269,15 +259,14 @@ EditScreen > Vertical {
 
 EditScreen .modal-title {
     color: #7aa2f7;
-    height: 2;
-    padding: 0 0 1 0;
+    height: auto;
+    margin-bottom: 1;
     text-style: bold;
 }
 
 EditScreen .modal-divider {
     color: #2a2c42;
     height: 1;
-    padding: 0 0 1 0;
 }
 
 EditScreen .form-label {
