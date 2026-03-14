@@ -42,13 +42,10 @@ class SnippetPreview(Widget):
     snippet: reactive[Snippet | None] = reactive(None, layout=True)
 
     def compose(self) -> ComposeResult:
-        yield Static("", id="preview-pin", classes="preview-pin")
-        yield Static("", id="preview-title", classes="preview-title")
-        yield Static("", id="preview-description", classes="preview-description")
-        yield Static("", id="preview-tags", classes="preview-tags")
+        yield Static("", id="preview-header")
         with Vertical(classes="preview-code-wrap", id="preview-code-wrap"):
             yield Static("", id="preview-code")
-        yield Static("", id="preview-meta", classes="preview-meta")
+        yield Static("", id="preview-footer")
 
     def watch_snippet(self, snippet: Snippet | None) -> None:
         if snippet is None:
@@ -57,51 +54,39 @@ class SnippetPreview(Widget):
             self._render_snippet(snippet)
 
     def _show_empty(self) -> None:
-        self.query_one("#preview-pin", Static).update("")
-        self.query_one("#preview-title", Static).update(
-            "[#2a2c42]select a snippet to preview[/#2a2c42]"
+        from rich.text import Text
+
+        self.query_one("#preview-header", Static).update(
+            Text("select a snippet to preview", style="#2a2c42")
         )
-        self.query_one("#preview-description", Static).update("")
-        self.query_one("#preview-tags", Static).update("")
-        self.query_one("#preview-code", Static).update("")
-        self.query_one("#preview-meta", Static).update("")
+        self.query_one("#preview-footer", Static).update("")
         self.query_one("#preview-code-wrap").display = False
 
     def _render_snippet(self, snippet: Snippet) -> None:
-        # pin badge
-        self.query_one("#preview-pin", Static).update(
-            "[bold #bb9af7]\u2605 pinned[/bold #bb9af7]" if snippet.pinned else ""
-        )
+        from rich.text import Text
 
-        # title
-        self.query_one("#preview-title", Static).update(
-            f"[bold #e0e7ff]{snippet.title}[/bold #e0e7ff]"
-        )
+        # Build a single multi-line header: pin + title + description + tags
+        header = Text()
+        if snippet.pinned:
+            header.append("\u2605 pinned\n", style="bold #bb9af7")
+        header.append(snippet.title, style="bold #e0e7ff")
+        if snippet.description:
+            header.append("\n" + snippet.description, style="#565f89")
+        if snippet.tags:
+            header.append("\n" + snippet.tags_display, style="#73daca")
+        self.query_one("#preview-header", Static).update(header)
 
-        # description
-        desc = snippet.description or ""
-        self.query_one("#preview-description", Static).update(
-            f"[#565f89]{desc}[/#565f89]" if desc else ""
-        )
-
-        # tags
-        tags = snippet.tags_display
-        self.query_one("#preview-tags", Static).update(
-            f"[#73daca]{tags}[/#73daca]" if tags else ""
-        )
-
-        # code
+        # Code block
         self.query_one("#preview-code-wrap").display = True
         self._render_code(snippet)
 
-        # meta
+        # Footer meta line
         created = snippet.created_at.strftime("%Y-%m-%d") if snippet.created_at else ""
         updated = snippet.updated_at.strftime("%Y-%m-%d") if snippet.updated_at else ""
-        meta = f"[#3b3f5c]{snippet.language}  \u00b7  {created}"
+        meta = f"{snippet.language}  \u00b7  {created}"
         if updated and updated != created:
             meta += f"  \u00b7  updated {updated}"
-        meta += "[/#3b3f5c]"
-        self.query_one("#preview-meta", Static).update(meta)
+        self.query_one("#preview-footer", Static).update(Text(meta, style="#565f89"))
 
     def _render_code(self, snippet: Snippet) -> None:
         try:

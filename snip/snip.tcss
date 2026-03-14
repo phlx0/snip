@@ -9,6 +9,9 @@
      text:         #c0caf5   text-hi:      #e0e7ff
      text-mid:     #a0aabf   text-muted:   #565f89
      text-dim:     #3b3f5c   text-ghost:   #2a2c42
+
+   Border rule: every `border-*: tall` costs 1 row.
+   widget height = visible content rows + border rows.
    ═══════════════════════════════════════════════════════════════ */
 
 
@@ -22,6 +25,7 @@ Screen {
 
 /* ── AppHeader ──────────────────────────────────────────────── */
 
+/* height 2 = 1 content row + 1 border-bottom row */
 AppHeader {
     dock: top;
     height: 2;
@@ -33,7 +37,9 @@ AppHeader {
 
 /* ── Footer ─────────────────────────────────────────────────── */
 
+/* height 2 = 1 border-top row + 1 content row */
 Footer {
+    height: 2;
     background: #13141f;
     color: #565f89;
     border-top: tall #2a2c42;
@@ -95,9 +101,9 @@ MainScreen .panels {
     min-height: 4;
 }
 
-/* status bar */
+/* status bar — height 2: border-top takes row 0, text in row 1 */
 MainScreen .status-bar {
-    height: 1;
+    height: 2;
     background: #0a0b14;
     border-top: tall #2a2c42;
     color: #565f89;
@@ -130,8 +136,9 @@ SnippetList {
     border-right: tall #2a2c42;
 }
 
+/* height 2: border-bottom takes row 1, text in row 0 */
 SnippetList .panel-label {
-    height: 1;
+    height: 2;
     background: #0a0b14;
     border-bottom: tall #1a1c2e;
     color: #565f89;
@@ -154,11 +161,16 @@ SnippetList .empty-label {
 
 /* ── SnippetItem ─────────────────────────────────────────────── */
 
+/*
+  height 4, padding 1 2 0 2, border-bottom: tall
+  content rows = 4 - 1(border) - 1(pad-top) - 0(pad-bot) = 2
+  row 0: item-title  row 1: item-meta
+*/
 SnippetItem {
     background: #0d0f18;
     border-bottom: tall #1a1c2e;
     height: 4;
-    padding: 1 2;
+    padding: 1 2 0 2;
 }
 
 SnippetItem:hover {
@@ -196,29 +208,12 @@ SnippetPreview {
     width: 1fr;
 }
 
-SnippetPreview .preview-pin {
-    color: #bb9af7;
-    height: auto;
-    margin-bottom: 0;
-}
-
-SnippetPreview .preview-title {
-    color: #e0e7ff;
+/* Single Static holding pin + title + description + tags as Rich Text.
+   height: auto lets it grow to however many lines are needed. */
+SnippetPreview #preview-header {
     height: auto;
     margin-bottom: 1;
-    text-style: bold;
-}
-
-SnippetPreview .preview-description {
-    color: #565f89;
-    height: auto;
-    margin-bottom: 1;
-}
-
-SnippetPreview .preview-tags {
-    color: #73daca;
-    height: auto;
-    margin-bottom: 1;
+    color: #c0caf5;
 }
 
 SnippetPreview .preview-code-wrap {
@@ -228,16 +223,10 @@ SnippetPreview .preview-code-wrap {
     padding: 0 1;
 }
 
-SnippetPreview .preview-meta {
-    color: #565f89;
+/* Meta line below the code block */
+SnippetPreview #preview-footer {
     height: auto;
-    margin-top: 1;
-}
-
-SnippetPreview .preview-empty {
-    color: #2a2c42;
-    padding: 6 2;
-    text-align: center;
+    color: #565f89;
 }
 
 
