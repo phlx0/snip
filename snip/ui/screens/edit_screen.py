@@ -18,10 +18,11 @@ class EditScreen(ModalScreen[Snippet | None]):
     }
     EditScreen > Vertical {
         width: 80;
-        max-height: 90%;
+        height: 90%;
         background: $surface;
         border: thick $accent;
         padding: 1 2;
+        overflow-y: auto;
     }
     EditScreen .form-label {
         color: $text-muted;
@@ -50,6 +51,8 @@ class EditScreen(ModalScreen[Snippet | None]):
 
     BINDINGS = [
         Binding("escape", "cancel", "Cancel"),
+        Binding("down", "next_field", show=False),
+        Binding("up", "prev_field", show=False),
     ]
 
     def __init__(self, snippet: Snippet | None = None) -> None:
@@ -109,6 +112,14 @@ class EditScreen(ModalScreen[Snippet | None]):
 
     def action_cancel(self) -> None:
         self.dismiss(None)
+
+    def action_next_field(self) -> None:
+        if not isinstance(self.focused, TextArea):
+            self.focus_next()
+
+    def action_prev_field(self) -> None:
+        if not isinstance(self.focused, TextArea):
+            self.focus_previous()
 
     def _save(self) -> None:
         title = self.query_one("#input-title", Input).value.strip()
