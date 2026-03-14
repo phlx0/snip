@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500">
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="20" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+    <linearGradient id="page-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b27"/>
+    </linearGradient>
+    <linearGradient id="accent-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#7aa2f7"/>
+      <stop offset="100%" style="stop-color:#73daca"/>
+    </linearGradient>
+    <clipPath id="window-clip">
+      <rect x="20" y="20" width="860" height="460" rx="12"/>
+    </clipPath>
+  </defs>
+
+  <!-- page background -->
+  <rect width="900" height="500" fill="url(#page-bg)"/>
+
+  <!-- subtle grid lines -->
+  <line x1="0" y1="250" x2="900" y2="250" stroke="#ffffff" stroke-opacity="0.02" stroke-width="1"/>
+  <line x1="450" y1="0" x2="450" y2="500" stroke="#ffffff" stroke-opacity="0.02" stroke-width="1"/>
+
+  <!-- terminal window shadow + frame -->
+  <rect x="20" y="20" width="860" height="460" rx="12" fill="#0d0f18" filter="url(#shadow)"/>
+
+  <!-- window content clipped -->
+  <g clip-path="url(#window-clip)">
+
+    <!-- title bar -->
+    <rect x="20" y="20" width="860" height="36" fill="#13141f"/>
+    <line x1="20" y1="56" x2="880" y2="56" stroke="#2a2c42" stroke-width="1"/>
+
+    <!-- traffic lights -->
+    <circle cx="46" cy="38" r="6" fill="#f7768e"/>
+    <circle cx="68" cy="38" r="6" fill="#e0af68"/>
+    <circle cx="90" cy="38" r="6" fill="#9ece6a"/>
+
+    <!-- title bar text -->
+    <text x="450" y="43" text-anchor="middle" fill="#3b3f5c" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12">snip — terminal snippet vault</text>
+
+    <!-- app header -->
+    <rect x="20" y="56" width="860" height="32" fill="#0d0f18"/>
+    <line x1="20" y1="88" x2="880" y2="88" stroke="#2a2c42" stroke-width="1"/>
+
+    <!-- logo -->
+    <text x="38" y="77" fill="#7aa2f7" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="15" font-weight="bold">◆</text>
+    <text x="57" y="77" fill="#c0caf5" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="15" font-weight="bold">snip</text>
+    <text x="103" y="77" fill="#2a2c42" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12">·  terminal snippet vault</text>
+    <text x="862" y="77" text-anchor="end" fill="#3b3f5c" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12">12:34:56</text>
+
+    <!-- search bar -->
+    <rect x="20" y="88" width="860" height="30" fill="#0a0b14"/>
+    <line x1="20" y1="118" x2="880" y2="118" stroke="#2a2c42" stroke-width="1"/>
+    <text x="40" y="108" fill="#7aa2f7" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="14" font-weight="bold">/</text>
+    <text x="58" y="108" fill="#3b3f5c" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12">search snippets...</text>
+
+    <!-- panel divider (vertical) -->
+    <line x1="295" y1="118" x2="295" y2="430" stroke="#2a2c42" stroke-width="1"/>
+
+    <!-- ── LEFT PANEL ─────────────────────────── -->
+
+    <!-- SNIPPETS label -->
+    <rect x="20" y="118" width="276" height="18" fill="#0a0b14"/>
+    <line x1="20" y1="136" x2="295" y2="136" stroke="#1a1c2e" stroke-width="1"/>
+    <text x="36" y="131" fill="#2a2c42" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="10" letter-spacing="1.5">SNIPPETS</text>
+
+    <!-- item 1 (selected) -->
+    <rect x="20" y="136" width="276" height="44" fill="#131729"/>
+    <rect x="20" y="136" width="3" height="44" fill="#7aa2f7"/>
+    <text x="38" y="154" fill="#e0e7ff" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12" font-weight="bold">★ List all listening ports</text>
+    <text x="38" y="170" fill="#565f89" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="10">bash</text>
+    <text x="70" y="170" fill="#73daca" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="10">#networking  #ports</text>
+    <line x1="23" y1="180" x2="294" y2="180" stroke="#1a1c2e" stroke-width="1"/>
+
+    <!-- item 2 -->
+    <rect x="20" y="180" width="276" height="44" fill="#0d0f18"/>
+    <text x="38" y="198" fill="#a0aabf" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12" font-weight="bold">Pretty-print JSON</text>
+    <text x="38" y="214" fill="#565f89" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="10">bash</text>
+    <text x="70" y="214" fill="#73daca" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="10">#json  #cli  #utils</text>
+    <line x1="23" y1="224" x2="294" y2="224" stroke="#1a1c2e" stroke-width="1"/>
+
+    <!-- item 3 -->
+    <rect x="20" y="224" width="276" height="44" fill="#0d0f18"/>
+    <text x="38" y="242" fill="#a0aabf" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12" font-weight="bold">Reverse a list (Python)</text>
+    <text x="38" y="258" fill="#565f89" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="10">python</text>
+    <text x="82" y="258" fill="#73daca" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="10">#python  #list</text>
+    <line x1="23" y1="268" x2="294" y2="268" stroke="#1a1c2e" stroke-width="1"/>
+
+    <!-- item 4 -->
+    <rect x="20" y="268" width="276" height="44" fill="#0d0f18"/>
+    <text x="38" y="286" fill="#a0aabf" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12" font-weight="bold">Git: undo last commit</text>
+    <text x="38" y="302" fill="#565f89" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="10">bash</text>
+    <text x="70" y="302" fill="#73daca" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="10">#git</text>
+    <line x1="23" y1="312" x2="294" y2="312" stroke="#1a1c2e" stroke-width="1"/>
+
+    <!-- item 5 -->
+    <rect x="20" y="312" width="276" height="44" fill="#0d0f18"/>
+    <text x="38" y="330" fill="#a0aabf" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12" font-weight="bold">Docker: clean up</text>
+    <text x="38" y="346" fill="#565f89" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="10">bash</text>
+    <text x="70" y="346" fill="#73daca" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="10">#docker  #devops</text>
+
+    <!-- ── RIGHT PANEL ────────────────────────── -->
+    <rect x="295" y="118" width="585" height="312" fill="#0d0f18"/>
+
+    <!-- pin badge -->
+    <text x="315" y="138" fill="#bb9af7" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11">★ pinned</text>
+
+    <!-- preview title -->
+    <text x="315" y="157" fill="#e0e7ff" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="15" font-weight="bold">List all listening ports</text>
+
+    <!-- preview description -->
+    <text x="315" y="175" fill="#565f89" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11">Show every port your machine is actively listening on</text>
+
+    <!-- tags -->
+    <text x="315" y="192" fill="#73daca" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11">#networking  #ports  #devops</text>
+
+    <!-- code block -->
+    <rect x="315" y="202" width="548" height="108" rx="6" fill="#0a0b14"/>
+    <rect x="315" y="202" width="548" height="108" rx="6" fill="none" stroke="#2a2c42" stroke-width="1"/>
+
+    <!-- line 1 -->
+    <text x="330" y="222" fill="#3b3f5c" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12">1</text>
+    <text x="352" y="222" fill="#73daca" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12">ss</text>
+    <text x="374" y="222" fill="#7aa2f7" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12"> -tlnp</text>
+
+    <!-- line 2 -->
+    <text x="330" y="242" fill="#3b3f5c" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12">2</text>
+    <text x="352" y="242" fill="#565f89" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12"># or on macOS:</text>
+
+    <!-- line 3 -->
+    <text x="330" y="262" fill="#3b3f5c" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12">3</text>
+    <text x="352" y="262" fill="#73daca" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12">lsof</text>
+    <text x="386" y="262" fill="#7aa2f7" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12"> -iTCP</text>
+    <text x="440" y="262" fill="#7aa2f7" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12"> -sTCP:LISTEN</text>
+    <text x="556" y="262" fill="#7aa2f7" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12"> -nP</text>
+
+    <!-- line 4 (cursor) -->
+    <text x="330" y="282" fill="#3b3f5c" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="12">4</text>
+    <rect x="352" y="271" width="8" height="14" fill="#7aa2f7" fill-opacity="0.6"/>
+
+    <!-- meta -->
+    <text x="315" y="328" fill="#3b3f5c" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11">bash  ·  created 2024-01-15</text>
+
+    <!-- ── STATUS BAR ─────────────────────────── -->
+    <line x1="20" y1="430" x2="880" y2="430" stroke="#2a2c42" stroke-width="1"/>
+    <rect x="20" y="430" width="860" height="20" fill="#0a0b14"/>
+    <text x="38" y="444" fill="#3b3f5c" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11">5/5 snippets</text>
+
+    <!-- ── FOOTER ─────────────────────────────── -->
+    <line x1="20" y1="450" x2="880" y2="450" stroke="#2a2c42" stroke-width="1"/>
+    <rect x="20" y="450" width="860" height="30" fill="#13141f"/>
+
+    <!-- key: n -->
+    <rect x="32" y="457" width="16" height="16" rx="3" fill="#252640"/>
+    <text x="40" y="469" text-anchor="middle" fill="#7aa2f7" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11">n</text>
+    <text x="52" y="469" fill="#565f89" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11"> New</text>
+
+    <!-- key: e -->
+    <rect x="96" y="457" width="16" height="16" rx="3" fill="#252640"/>
+    <text x="104" y="469" text-anchor="middle" fill="#7aa2f7" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11">e</text>
+    <text x="116" y="469" fill="#565f89" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11"> Edit</text>
+
+    <!-- key: d -->
+    <rect x="160" y="457" width="16" height="16" rx="3" fill="#252640"/>
+    <text x="168" y="469" text-anchor="middle" fill="#7aa2f7" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11">d</text>
+    <text x="180" y="469" fill="#565f89" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11"> Delete</text>
+
+    <!-- key: y -->
+    <rect x="240" y="457" width="16" height="16" rx="3" fill="#252640"/>
+    <text x="248" y="469" text-anchor="middle" fill="#7aa2f7" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11">y</text>
+    <text x="260" y="469" fill="#565f89" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11"> Copy</text>
+
+    <!-- key: p -->
+    <rect x="310" y="457" width="16" height="16" rx="3" fill="#252640"/>
+    <text x="318" y="469" text-anchor="middle" fill="#7aa2f7" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11">p</text>
+    <text x="330" y="469" fill="#565f89" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11"> Pin</text>
+
+    <!-- key: / -->
+    <rect x="368" y="457" width="16" height="16" rx="3" fill="#252640"/>
+    <text x="376" y="469" text-anchor="middle" fill="#7aa2f7" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11">/</text>
+    <text x="388" y="469" fill="#565f89" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11"> Search</text>
+
+    <!-- key: q -->
+    <rect x="450" y="457" width="16" height="16" rx="3" fill="#252640"/>
+    <text x="458" y="469" text-anchor="middle" fill="#7aa2f7" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11">q</text>
+    <text x="470" y="469" fill="#565f89" font-family="'SF Mono','JetBrains Mono','Fira Code',monospace" font-size="11"> Quit</text>
+
+    <!-- window border -->
+    <rect x="20" y="20" width="860" height="460" rx="12" fill="none" stroke="#2a2c42" stroke-width="1"/>
+
+  </g>
+</svg>

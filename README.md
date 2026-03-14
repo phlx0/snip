@@ -1,26 +1,20 @@
-# snip
+<div align="center">
 
-> A terminal snippet manager. Store, search, and copy code without leaving your shell.
+<br/>
 
-```
-┌─ snip ──────────────────────────────────────────────────── 14:32 ─┐
-│ / Search snippets…                                                   │
-├──────────────────────────┬───────────────────────────────────────── │
-│ 📌 List all listening... │  List all listening ports                 │
-│    bash  #networking     │  Show every port your machine is on       │
-│ ──────────────────────── │  #networking #ports #devops               │
-│  Pretty-print JSON       │                                           │
-│    bash  #json #cli      │  ┌───────────────────────────────────┐   │
-│ ──────────────────────── │  │  1  ss -tlnp                      │   │
-│  Reverse a list (Python) │  │  2  # or on macOS:                │   │
-│    python  #list         │  │  3  lsof -iTCP -sTCP:LISTEN -nP   │   │
-│ ──────────────────────── │  └───────────────────────────────────┘   │
-│  Git: undo last commit   │                                           │
-│    bash  #git            │  lang: bash · created: 2024-01-15 09:00  │
-├──────────────────────────┴───────────────────────────────────────── │
-│  4/4 snippets  ·  [n]ew  [e]dit  [d]elete  [y]ank  [p]in  [q]uit   │
-└───────────────────────────────────────────────────────────────────  ┘
-```
+# ◆ snip
+
+**A terminal snippet manager that lives where you work.**
+
+Store, search, and yank code without leaving your shell.
+
+<br/>
+
+![snip terminal interface](assets/hero.svg)
+
+<br/>
+
+</div>
 
 ---
 
@@ -28,22 +22,7 @@
 
 You write a clever one-liner. You close the terminal. Three weeks later you're Googling the same thing again.
 
-**snip** is your personal snippet vault that lives where you work — no browser, no account, no sync drama.
-
----
-
-## Features
-
-| | |
-|---|---|
-| **Syntax highlighting** | Powered by Rich + Pygments, 20+ languages |
-| **Live fuzzy search** | Filters across title, content, tags, and language as you type |
-| **Clipboard copy** | Press `y` to yank a snippet's content instantly |
-| **Pin snippets** | Keep your most-used snippets at the top |
-| **Tags** | Organise freely with space-separated tags |
-| **Vim-style navigation** | `j`/`k` to move, `/` to search, `q` to quit |
-| **SQLite storage** | Lives in `~/.config/snip/snip.db` — portable and fast |
-| **Fully offline** | No server, no account, your data stays local |
+**snip** is your personal snippet vault — local, offline, instantly searchable from your terminal. No browser tabs, no account, no sync drama.
 
 ---
 
@@ -67,10 +46,27 @@ pip install -e .
 
 ```bash
 snip                              # open the TUI
-snip --db ~/Dropbox/snippets.db   # use a custom database (great for sync)
+snip --db ~/Dropbox/snippets.db   # use a custom db path (sync via Dropbox, iCloud, etc.)
 ```
 
-### Keyboard shortcuts
+---
+
+## Features
+
+| | |
+|---|---|
+| **Syntax highlighting** | Powered by Rich + Pygments across 20+ languages |
+| **Live search** | Filters across title, description, tags, and language as you type |
+| **Clipboard copy** | Press `y` to yank a snippet's content instantly |
+| **Pin snippets** | Keep your most-used snippets at the top of the list |
+| **Tags** | Organise freely with space-separated tags |
+| **Vim-style navigation** | `j`/`k` or arrow keys to move, `/` to search, `q` to quit |
+| **SQLite storage** | Lives in `~/.config/snip/snip.db` — portable and fast |
+| **Fully offline** | No server, no account, your data stays local |
+
+---
+
+## Keyboard shortcuts
 
 | Key | Action |
 |-----|--------|
@@ -81,7 +77,8 @@ snip --db ~/Dropbox/snippets.db   # use a custom database (great for sync)
 | `p` | Toggle pin on selected snippet |
 | `/` | Focus search bar |
 | `Esc` | Clear search / unfocus |
-| `j` / `k` | Move down / up |
+| `↑` `↓` or `j` `k` | Navigate list |
+| `Tab` / `↑` `↓` | Navigate form fields (in new/edit modal) |
 | `q` | Quit |
 
 ---
@@ -91,8 +88,8 @@ snip --db ~/Dropbox/snippets.db   # use a custom database (great for sync)
 ```
 snip/
 ├── snip/
-│   ├── __main__.py          # Entry point
-│   ├── app.py               # Textual App + demo seeding
+│   ├── __main__.py
+│   ├── app.py               # Textual app + theme + demo seeding
 │   ├── models/
 │   │   └── snippet.py       # Snippet dataclass
 │   ├── storage/
@@ -105,12 +102,8 @@ snip/
 │   │       ├── snippet_list.py      # Left panel
 │   │       └── snippet_preview.py   # Right panel (syntax highlight)
 │   └── utils/
-│       └── clipboard.py     # Cross-platform clipboard
+│       └── clipboard.py
 └── tests/
-    ├── conftest.py
-    ├── test_snippet.py
-    ├── test_database.py
-    └── test_clipboard.py
 ```
 
 ---
@@ -120,7 +113,7 @@ snip/
 ```bash
 pip install -e ".[dev]"
 make test        # run tests
-make test-cov    # run tests with coverage
+make test-cov    # run with coverage
 ```
 
 ---
