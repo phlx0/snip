@@ -35,16 +35,20 @@ class MainScreen(Screen):
         height: 3;
         border-bottom: tall $panel;
         padding: 0 1;
+        overflow: hidden;
     }
     MainScreen Input {
         border: none;
         background: transparent;
         height: 1;
         padding: 1 0;
+        width: 1fr;
+        min-width: 8;
     }
     MainScreen .search-label {
         color: $accent;
         width: auto;
+        min-width: 2;
         padding: 1 1 1 0;
     }
     MainScreen .status-bar {
