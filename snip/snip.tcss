@@ -63,13 +63,14 @@ FooterKey:hover .footer-key--key {
 
 /* ── MainScreen ─────────────────────────────────────────────── */
 
-/* search bar */
+/* search bar — height 3: border row + 1 empty + 1 text (align middle) */
 MainScreen .search-bar {
-    height: 2;
+    height: 3;
     background: #0a0b14;
     border-bottom: tall #2a2c42;
     padding: 0 2;
     overflow: hidden;
+    align: left middle;
 }
 
 MainScreen .search-label {
@@ -77,10 +78,10 @@ MainScreen .search-label {
     text-style: bold;
     width: auto;
     min-width: 2;
-    padding: 0 1 0 0;
 }
 
-MainScreen Input {
+/* Use the ID to override Textual's own Input default CSS */
+#search-input {
     background: transparent;
     border: none;
     color: #c0caf5;
@@ -90,12 +91,12 @@ MainScreen Input {
     width: 1fr;
 }
 
-MainScreen Input:focus {
+#search-input:focus {
     background: transparent;
     border: none;
 }
 
-MainScreen Input .input--placeholder {
+#search-input .input--placeholder {
     color: #3b3f5c;
 }
 
@@ -105,12 +106,12 @@ MainScreen .panels {
     min-height: 4;
 }
 
-/* status bar — height 2: border-top takes row 0, text in row 1 */
+/* status bar — height 2: border-top (row 0) + text (row 1) */
 MainScreen .status-bar {
     height: 2;
     background: #0a0b14;
     border-top: tall #2a2c42;
-    color: #565f89;
+    color: #3b3f5c;
     padding: 0 2;
 }
 
@@ -212,22 +213,20 @@ SnippetPreview {
     width: 1fr;
 }
 
-/* Single Static holding pin + title + description + tags as Rich Text.
-   height: auto lets it grow to however many lines are needed. */
 SnippetPreview #preview-header {
     height: auto;
     margin-bottom: 1;
     color: #c0caf5;
 }
 
+/* round border gives ╭─╮╰─╯ corners */
 SnippetPreview .preview-code-wrap {
     background: #0a0b14;
-    border: tall #2a2c42;
+    border: round #2a2c42;
     margin: 0 0 1 0;
     padding: 0 1;
 }
 
-/* Meta line below the code block */
 SnippetPreview #preview-footer {
     height: auto;
     color: #565f89;

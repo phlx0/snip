@@ -58,6 +58,16 @@ class SnippetList(Widget):
             return item.snippet
         return None
 
+    def highlight_by_id(self, snippet_id: int | None) -> None:
+        """Move the list cursor to the item matching snippet_id."""
+        if snippet_id is None:
+            return
+        lv = self.query_one("#list-view", ListView)
+        for i, child in enumerate(lv.children):
+            if isinstance(child, SnippetItem) and child.snippet.id == snippet_id:
+                lv.index = i
+                return
+
     def move_down(self) -> None:
         self.query_one("#list-view", ListView).action_cursor_down()
 

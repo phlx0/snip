@@ -41,7 +41,7 @@ class MainScreen(Screen):
         with Horizontal(classes="panels"):
             yield SnippetList(id="snippet-list")
             yield SnippetPreview(id="snippet-preview")
-        yield Label("", id="status-bar", classes="status-bar")
+        yield Static("", id="status-bar", classes="status-bar")
         yield Footer()
         with Vertical(id="too-small-overlay"):
             yield Static(
@@ -64,13 +64,21 @@ class MainScreen(Screen):
     # List / search helpers
     # ------------------------------------------------------------------
 
-    def _refresh_list(self, query: str = "") -> None:
+    def _refresh_list(self, query: str = "", select_id: int | None = None) -> None:
         snippets = self._db.search(query) if query else self._db.get_all()
         sl: SnippetList = self.query_one("#snippet-list", SnippetList)
         sl.snippets = snippets
 
-        if snippets:
-            self._update_preview(snippets[0])
+        # Decide which snippet to show in the preview / keep highlighted.
+        target: Snippet | None = None
+        if select_id is not None:
+            target = next((s for s in snippets if s.id == select_id), None)
+        if target is None and snippets:
+            target = snippets[0]
+
+        if target is not None:
+            self._update_preview(target)
+            sl.highlight_by_id(target.id)
         else:
             self.query_one("#snippet-preview", SnippetPreview).snippet = None
 
@@ -82,7 +90,7 @@ class MainScreen(Screen):
     def _update_status(self, shown: int, total: int) -> None:
         count = f"{shown}/{total} snippet{'s' if total != 1 else ''}"
         filt = f"  \u00b7  \"{self._query}\"" if self._query else ""
-        self.query_one("#status-bar", Label).update(count + filt)
+        self.query_one("#status-bar", Static).update(count + filt)
 
     # ------------------------------------------------------------------
     # Events
@@ -134,7 +142,7 @@ class MainScreen(Screen):
         def _on_result(result: Snippet | None) -> None:
             if result is not None:
                 self._db.create(result)
-                self._refresh_list(self._query)
+                self._refresh_list(self._query, select_id=result.id)
                 self._flash(f"created \u2018{result.title}\u2019")
 
         self.app.push_screen(EditScreen(), _on_result)
@@ -149,7 +157,7 @@ class MainScreen(Screen):
         def _on_result(result: Snippet | None) -> None:
             if result is not None:
                 self._db.update(result)
-                self._refresh_list(self._query)
+                self._refresh_list(self._query, select_id=result.id)
                 self._flash(f"updated \u2018{result.title}\u2019")
 
         self.app.push_screen(EditScreen(snippet), _on_result)
@@ -178,8 +186,10 @@ class MainScreen(Screen):
         snippet = self.query_one("#snippet-list", SnippetList).highlighted_snippet()
         if snippet is None or snippet.id is None:
             return
-        pinned = self._db.toggle_pin(snippet.id)
-        self._refresh_list(self._query)
+        snippet_id = snippet.id
+        pinned = self._db.toggle_pin(snippet_id)
+        # Pass select_id so the same snippet stays highlighted after reorder.
+        self._refresh_list(self._query, select_id=snippet_id)
         state = "pinned" if pinned else "unpinned"
         self._flash(f"\u2018{snippet.title}\u2019 {state}")
 
@@ -187,4 +197,4 @@ class MainScreen(Screen):
         self.app.exit()
 
     def _flash(self, msg: str) -> None:
-        self.query_one("#status-bar", Label).update(f"\u2713  {msg}")
+        self.query_one("#status-bar", Static).update(f"\u2713  {msg}")

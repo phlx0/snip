@@ -36,6 +36,56 @@ _LANG_MAP: dict[str, str] = {
 }
 
 
+def _make_syntax(content: str, language: str):
+    """Return a Rich Syntax renderable using a Tokyo Night palette."""
+    from rich.syntax import Syntax
+
+    try:
+        from pygments.style import Style
+        from pygments.token import (
+            Comment, Generic, Keyword, Name, Number,
+            Operator, String, Token,
+        )
+
+        class _TokyoNight(Style):
+            background_color = "#0a0b14"
+            default_style = "#c0caf5"
+            styles = {
+                Token:              "#c0caf5",
+                Comment:            "italic #565f89",
+                Keyword:            "#7aa2f7",
+                Keyword.Constant:   "#ff9e64",
+                Keyword.Type:       "#73daca",
+                Name.Builtin:       "#73daca",
+                Name.Function:      "#7aa2f7",
+                Name.Decorator:     "#bb9af7",
+                Name.Exception:     "#f7768e",
+                Name.Variable:      "#c0caf5",
+                String:             "#9ece6a",
+                String.Escape:      "#ff9e64",
+                Number:             "#ff9e64",
+                Operator:           "#89ddff",
+                Operator.Word:      "#7aa2f7",
+                Generic.Heading:    "bold #7aa2f7",
+                Generic.Subheading: "#73daca",
+                Generic.Error:      "#f7768e",
+            }
+
+        from rich.syntax import PygmentsSyntaxTheme
+        theme = PygmentsSyntaxTheme(_TokyoNight)
+    except Exception:
+        # If Pygments or PygmentsSyntaxTheme is unavailable, fall back.
+        theme = "monokai"  # type: ignore[assignment]
+
+    return Syntax(
+        content,
+        language,
+        theme=theme,
+        line_numbers=True,
+        word_wrap=False,
+    )
+
+
 class SnippetPreview(Widget):
     """Right-panel: syntax-highlighted code preview."""
 
@@ -44,7 +94,7 @@ class SnippetPreview(Widget):
     def compose(self) -> ComposeResult:
         yield Static("", id="preview-header")
         with Vertical(classes="preview-code-wrap", id="preview-code-wrap"):
-            yield Static("", id="preview-code")
+            yield Static("", id="preview-code", markup=False)
         yield Static("", id="preview-footer")
 
     def watch_snippet(self, snippet: Snippet | None) -> None:
@@ -65,7 +115,6 @@ class SnippetPreview(Widget):
     def _render_snippet(self, snippet: Snippet) -> None:
         from rich.text import Text
 
-        # Build a single multi-line header: pin + title + description + tags
         header = Text()
         if snippet.pinned:
             header.append("\u2605 pinned\n", style="bold #bb9af7")
@@ -76,11 +125,9 @@ class SnippetPreview(Widget):
             header.append("\n" + snippet.tags_display, style="#73daca")
         self.query_one("#preview-header", Static).update(header)
 
-        # Code block
         self.query_one("#preview-code-wrap").display = True
         self._render_code(snippet)
 
-        # Footer meta line
         created = snippet.created_at.strftime("%Y-%m-%d") if snippet.created_at else ""
         updated = snippet.updated_at.strftime("%Y-%m-%d") if snippet.updated_at else ""
         meta = f"{snippet.language}  \u00b7  {created}"
@@ -89,16 +136,12 @@ class SnippetPreview(Widget):
         self.query_one("#preview-footer", Static).update(Text(meta, style="#565f89"))
 
     def _render_code(self, snippet: Snippet) -> None:
+        language = _LANG_MAP.get(snippet.language, "text")
         try:
-            from rich.syntax import Syntax
-
-            syntax = Syntax(
-                snippet.content,
-                _LANG_MAP.get(snippet.language, "text"),
-                theme="nord",
-                line_numbers=True,
-                word_wrap=False,
-            )
+            syntax = _make_syntax(snippet.content, language)
             self.query_one("#preview-code", Static).update(syntax)
         except Exception:
-            self.query_one("#preview-code", Static).update(snippet.content)
+            from rich.text import Text
+            self.query_one("#preview-code", Static).update(
+                Text(snippet.content, style="#c0caf5")
+            )
