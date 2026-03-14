@@ -25,13 +25,13 @@ Screen {
 
 /* ── AppHeader ──────────────────────────────────────────────── */
 
-/* height 2 = 1 content row + 1 border-bottom row */
+/* height 3 = 1 top-pad + 1 content + 1 border-bottom */
 AppHeader {
     dock: top;
-    height: 2;
+    height: 3;
     background: #0d0f18;
     border-bottom: tall #2a2c42;
-    padding: 0 2;
+    padding: 1 2 0 2;
 }
 
 
@@ -63,14 +63,13 @@ FooterKey:hover .footer-key--key {
 
 /* ── MainScreen ─────────────────────────────────────────────── */
 
-/* search bar — height 3: border row + 1 empty + 1 text (align middle) */
+/* search bar — height 3: 1 top-pad + 1 text + 1 border-bottom */
 MainScreen .search-bar {
     height: 3;
     background: #0a0b14;
     border-bottom: tall #2a2c42;
-    padding: 0 2;
+    padding: 1 2 0 2;
     overflow: hidden;
-    align: left middle;
 }
 
 MainScreen .search-label {
@@ -141,13 +140,13 @@ SnippetList {
     border-right: tall #2a2c42;
 }
 
-/* height 2: border-bottom takes row 1, text in row 0 */
+/* height 3: 1 top-pad + 1 text + 1 border-bottom */
 SnippetList .panel-label {
-    height: 2;
+    height: 3;
     background: #0a0b14;
     border-bottom: tall #1a1c2e;
     color: #2a2c42;
-    padding: 0 2;
+    padding: 1 2 0 2;
 }
 
 SnippetList ListView {
