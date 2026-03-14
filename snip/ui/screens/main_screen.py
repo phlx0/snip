@@ -4,7 +4,7 @@ from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical
 from textual.screen import Screen
-from textual.widgets import Header, Input, Label, ListView, Static
+from textual.widgets import Footer, Header, Input, Label, ListView, Static
 
 from snip.models.snippet import Snippet
 from snip.ui.widgets.snippet_list import SnippetItem, SnippetList
@@ -96,6 +96,7 @@ class MainScreen(Screen):
             yield SnippetList(id="snippet-list")
             yield SnippetPreview(id="snippet-preview")
         yield Label("", id="status-bar", classes="status-bar")
+        yield Footer()
         with Vertical(id="too-small-overlay"):
             yield Static(
                 f"Terminal too small\nMinimum size: {self.MIN_WIDTH}\u00d7{self.MIN_HEIGHT}"
@@ -103,7 +104,9 @@ class MainScreen(Screen):
 
     def on_mount(self) -> None:
         self._refresh_list()
-        self.query_one("#search-input", Input).focus()
+        self.query_one("#snippet-list", SnippetList).query_one(
+            "#list-view", ListView
+        ).focus()
 
     def on_resize(self, event) -> None:  # type: ignore[override]
         too_small = event.size.width < self.MIN_WIDTH or event.size.height < self.MIN_HEIGHT
@@ -131,8 +134,7 @@ class MainScreen(Screen):
     def _update_status(self, shown: int, total: int) -> None:
         count = f"  {shown}/{total} snippet{'s' if total != 1 else ''}"
         filt = f'  \u00b7  filter: "{self._query}"' if self._query else ""
-        hints = "  \u00b7  n:new  e:edit  d:del  y:copy  p:pin  /:search  q:quit"
-        self.query_one("#status-bar", Label).update(count + filt + hints)
+        self.query_one("#status-bar", Label).update(count + filt)
 
     # ------------------------------------------------------------------
     # Events
