@@ -17,7 +17,13 @@ die()  { echo -e "  ${RED}✗${RST}  $*" >&2; exit 1; }
 VENV_DIR="$HOME/.local/share/snip"
 BIN_DIR="$HOME/.local/bin"
 BIN="$BIN_DIR/snip"
-REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Detect whether we're running from a local clone or piped via curl
+if [[ -n "${BASH_SOURCE[0]:-}" && "${BASH_SOURCE[0]}" != "bash" && -f "${BASH_SOURCE[0]}" ]]; then
+  REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+else
+  REPO_DIR=""
+fi
 
 # ── header ────────────────────────────────────────────────────────────
 echo
@@ -51,7 +57,11 @@ ok "venv ready"
 # ── install package ───────────────────────────────────────────────────
 info "installing snip"
 "$VENV_DIR/bin/pip" install --quiet --upgrade pip
-"$VENV_DIR/bin/pip" install --quiet -e "$REPO_DIR"
+if [[ -n "$REPO_DIR" ]]; then
+  "$VENV_DIR/bin/pip" install --quiet -e "$REPO_DIR"
+else
+  "$VENV_DIR/bin/pip" install --quiet snip-tui
+fi
 ok "package installed"
 
 # ── create launcher ───────────────────────────────────────────────────

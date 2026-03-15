@@ -41,7 +41,7 @@ No Electron. No browser. No sync drama. Just your snippets, always there.
 ### One-liner (Linux / macOS)
 
 ```bash
-git clone https://github.com/phlx0/snip && cd snip && bash install.sh
+curl -fsSL https://raw.githubusercontent.com/phlx0/snip/main/install.sh | bash
 ```
 
 Creates an isolated virtualenv at `~/.local/share/snip`, drops a `snip` launcher at `~/.local/bin/snip`, and patches your shell config if needed. Open a new terminal and you're done.
