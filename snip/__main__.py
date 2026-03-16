@@ -4,7 +4,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-VERSION = "0.5.1"
+VERSION = "0.6.0"
 
 # Set to True by -q / --quiet to suppress informational stderr messages
 _quiet = False

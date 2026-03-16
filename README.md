@@ -77,6 +77,10 @@ snip --from-history           # pick a command from shell history and save it
 snip --version                # show version
 snip -q ports                 # suppress informational output (clean for scripts)
 snip --db ~/sync/snip.db      # use a custom db — easy cloud sync
+snip theme list               # list available themes
+snip theme set dracula        # switch to the Dracula theme
+snip theme import my.json     # import a custom theme and activate it
+snip --theme dracula          # one-shot: use a theme for this session only
 ```
 
 ### Shell completion
@@ -114,7 +118,8 @@ Pick any snippet interactively with fuzzy search, pipe it straight to your clipb
 | **JSON output** | `snip --json <query>` — full snippet metadata as JSON for scripting |
 | **Shell completion** | `eval "$(snip init zsh)"` — tab-complete snippet titles and flags |
 | **fzf-friendly** | `snip --list` prints titles one per line — pipe into anything |
-| **Syntax highlighting** | Tokyo Night palette via a custom Pygments style across 20+ languages |
+| **Themes** | Built-in Tokyo Night and Dracula; import any custom theme via a JSON file |
+| **Syntax highlighting** | Syntax colors adapt to the active theme across 20+ languages |
 | **Live search** | Filters across title, description, tags, and language as you type |
 | **Clipboard copy** | Press `y` to yank a snippet straight to your clipboard |
 | **Pin snippets** | Keep your most-used snippets pinned at the top |
@@ -150,7 +155,8 @@ snip/
 ├── snip/
 │   ├── __main__.py          # entry point + CLI
 │   ├── app.py               # Textual app + demo seeding
-│   ├── snip.tcss            # all styling (Tokyo Night palette)
+│   ├── themes.py            # theme system — built-ins, JSON loading, CSS injection
+│   ├── snip.tcss            # all styling (CSS variables, theme-agnostic)
 │   ├── models/
 │   │   └── snippet.py       # Snippet dataclass
 │   ├── storage/
@@ -190,6 +196,7 @@ make clean      # remove build artefacts and .venv
 Full documentation is available on the [**wiki**](https://github.com/phlx0/snip/wiki).
 
 - [CLI reference](https://github.com/phlx0/snip/wiki/CLI-Reference)
+- [Themes](https://github.com/phlx0/snip/wiki/Themes)
 - [Keybindings](https://github.com/phlx0/snip/wiki/Keybindings)
 - [fzf integration](https://github.com/phlx0/snip/wiki/FZF-Integration)
 - [tmux integration](https://github.com/phlx0/snip/wiki/Tmux-Integration)

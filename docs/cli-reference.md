@@ -14,6 +14,9 @@ snip [OPTIONS] [QUERY]
 | `snip <query>` | Find a snippet by title, print content, copy to clipboard |
 | `snip run <query>` | Run a snippet as a shell command |
 | `snip init zsh\|bash` | Print shell completion script |
+| `snip theme list` | List all available themes |
+| `snip theme set <name>` | Set the active theme |
+| `snip theme import <file>` | Import a custom theme JSON and activate it |
 
 ## Options
 
@@ -26,6 +29,7 @@ snip [OPTIONS] [QUERY]
 | `--export` | Dump all snippets as JSON to stdout |
 | `--import <file\|->` | Import snippets from a JSON file. Use `-` to read from stdin |
 | `--from-history` | Pick a command from shell history and save it as a snippet |
+| `--theme <name>` | Launch the TUI with a specific theme for this session only |
 | `--db <path>` | Use a custom database file instead of `~/.config/snip/snip.db` |
 | `-q`, `--quiet` | Suppress informational stderr output |
 | `--version`, `-v` | Print version string |
@@ -72,4 +76,13 @@ snip --list devops | fzf | xargs snip
 
 # Use in a script without noise
 TOKEN=$(snip -q my-token)
+
+# Try the Dracula theme for one session
+snip --theme dracula
+
+# Permanently switch to Dracula
+snip theme set dracula
+
+# Import a custom theme
+snip theme import ~/dotfiles/themes/gruvbox.json
 ```

@@ -11,6 +11,20 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.6.0] — 2026-03-16
+
+### Added
+- Theme system: all UI colors are now driven by a `Theme` dataclass; `snip.tcss` uses CSS variables throughout
+- Built-in themes: `tokyo-night` (default) and `dracula`
+- `snip theme list` — list all available themes (built-in and custom)
+- `snip theme set <name>` — persist the active theme to `~/.config/snip/config.json`
+- `snip theme import <file>` — validate and install a custom theme JSON, then activate it
+- `--theme <name>` flag — launch the TUI with a specific theme for one session without changing the saved preference
+- Custom themes are stored in `~/.config/snip/themes/` as plain JSON files and can be committed to dotfiles or shared as Gists
+- Syntax highlighting colors (Pygments) and all Rich inline markup adapt to the active theme
+
+---
+
 ## [0.5.1] — 2026-03-16
 
 ### Fixed
@@ -83,7 +97,8 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `install.sh` one-liner installer for Linux / macOS
 - `--db` flag for a custom database path (easy Dropbox / iCloud sync)
 
-[Unreleased]: https://github.com/phlx0/snip/compare/v0.5.1...HEAD
+[Unreleased]: https://github.com/phlx0/snip/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/phlx0/snip/compare/v0.5.1...v0.6.0
 [0.5.1]: https://github.com/phlx0/snip/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/phlx0/snip/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/phlx0/snip/compare/v0.3.0...v0.4.0
