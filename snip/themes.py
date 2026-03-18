@@ -132,8 +132,9 @@ def get_active_name() -> str:
     if config.exists():
         try:
             return json.loads(config.read_text()).get("theme", "tokyo-night")
-        except Exception:
-            pass
+        except Exception as e:
+            import sys
+            print(f"snip: warning — could not read theme config: {e}", file=sys.stderr)
     return "tokyo-night"
 
 
@@ -144,8 +145,9 @@ def set_active(name: str) -> None:
     if config.exists():
         try:
             cfg = json.loads(config.read_text())
-        except Exception:
-            pass
+        except Exception as e:
+            import sys
+            print(f"snip: warning — could not read theme config, resetting: {e}", file=sys.stderr)
     cfg["theme"] = name
     config.write_text(json.dumps(cfg, indent=2))
 
