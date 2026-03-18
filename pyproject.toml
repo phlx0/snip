@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "snip-tui"
-version = "0.6.1"
+version = "0.6.2"
 description = "A terminal snippet manager — store, search, and copy code snippets without leaving your shell"
 readme = "README.md"
 license = { text = "MIT" }

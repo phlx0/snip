@@ -11,6 +11,21 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.6.2] — 2026-03-19
+
+### Fixed
+- `_run_add` (`snip --add`) now opens files with `errors="replace"` so non-UTF-8 files no longer raise `UnicodeDecodeError`
+- JSON import: `tags` field is validated to be a list; non-list values are coerced to `[]` and each element is cast to `str` to prevent DB type corruption; `pinned` is explicitly cast to `bool`
+- Theme config parse errors in `get_active_name` and `set_active` are now printed to stderr instead of being swallowed silently
+- `database.py`: replaced `Optional[Snippet]` with `Snippet | None`, removed unused `from typing import Optional`
+- `_resolve` in `__main__.py` now declares `-> Snippet` return type
+
+### Tests
+- Added `tests/test_main.py` covering `_lang_from_ext`, `_resolve`, `_run_add`, `_run_export`, and `_run_import` (including all edge cases added in 0.6.1 and 0.6.2)
+- Added `tests/test_themes.py` covering `load`, `list_themes`, `get_active_name`, `set_active`, and `import_theme`
+
+---
+
 ## [0.6.1] — 2026-03-18
 
 ### Fixed
@@ -110,7 +125,8 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `install.sh` one-liner installer for Linux / macOS
 - `--db` flag for a custom database path (easy Dropbox / iCloud sync)
 
-[Unreleased]: https://github.com/phlx0/snip/compare/v0.6.1...HEAD
+[Unreleased]: https://github.com/phlx0/snip/compare/v0.6.2...HEAD
+[0.6.2]: https://github.com/phlx0/snip/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/phlx0/snip/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/phlx0/snip/compare/v0.5.1...v0.6.0
 [0.5.1]: https://github.com/phlx0/snip/compare/v0.5.0...v0.5.1
