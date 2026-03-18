@@ -4,8 +4,6 @@ import json
 import sqlite3
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
-
 from snip.models.snippet import Snippet
 
 
@@ -70,7 +68,7 @@ class Database:
             ).fetchall()
         return [self._row_to_snippet(row) for row in rows]
 
-    def get_by_id(self, snippet_id: int) -> Optional[Snippet]:
+    def get_by_id(self, snippet_id: int) -> Snippet | None:
         with self._connect() as conn:
             row = conn.execute(
                 "SELECT * FROM snippets WHERE id = ?", (snippet_id,)

@@ -31,7 +31,7 @@ def _run_list(db_path: Path, tag: str = "") -> None:
         print(s.title)
 
 
-def _resolve(query: str, db_path: Path):
+def _resolve(query: str, db_path: Path) -> "Snippet":
     from snip.storage.database import Database
 
     db = Database(db_path)
