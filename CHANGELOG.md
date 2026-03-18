@@ -11,6 +11,19 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [0.6.1] — 2026-03-18
+
+### Fixed
+- `__init__.py` version was stale (`0.1.0`); now kept in sync with `pyproject.toml` and `__main__.py`
+- JSON import (`snip --import`) now validates that the root value is an array and that each entry is an object; previously a non-array root or a non-dict entry would cause a `TypeError` at runtime
+- `.dockerfile` filenames (no extension, dot-prefixed) are now correctly detected as the `dockerfile` language when using `snip --add`
+- Redundant `except (ValueError, Exception)` in theme import narrowed to `except Exception` (`ValueError` is a subclass and was dead code)
+- Clipboard fallback no longer silently swallows errors; `ImportError` from missing `pyperclip` is handled separately, other failures are printed to stderr
+- Removed unnecessary `shell=True` from the Windows `clip` subprocess call
+- `models/snippet.py`: replaced `Optional[int]` / `Optional[datetime]` with `int | None` / `datetime | None` (consistent with the rest of the codebase); removed unused `from typing import Optional`
+
+---
+
 ## [0.6.0] — 2026-03-16
 
 ### Added
@@ -97,7 +110,8 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `install.sh` one-liner installer for Linux / macOS
 - `--db` flag for a custom database path (easy Dropbox / iCloud sync)
 
-[Unreleased]: https://github.com/phlx0/snip/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/phlx0/snip/compare/v0.6.1...HEAD
+[0.6.1]: https://github.com/phlx0/snip/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/phlx0/snip/compare/v0.5.1...v0.6.0
 [0.5.1]: https://github.com/phlx0/snip/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/phlx0/snip/compare/v0.4.0...v0.5.0

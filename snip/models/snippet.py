@@ -2,9 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional
-
-
 SUPPORTED_LANGUAGES = [
     "text", "python", "javascript", "typescript", "bash", "go", "rust",
     "c", "cpp", "java", "json", "yaml", "toml", "sql", "html", "css",
@@ -20,9 +17,9 @@ class Snippet:
     description: str = ""
     tags: list[str] = field(default_factory=list)
     pinned: bool = False
-    id: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
+    id: int | None = None
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
 
     def __post_init__(self) -> None:
         now = datetime.now()

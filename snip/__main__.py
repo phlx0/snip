@@ -4,7 +4,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-VERSION = "0.6.0"
+VERSION = "0.6.1"
 
 # Set to True by -q / --quiet to suppress informational stderr messages
 _quiet = False
@@ -101,7 +101,7 @@ def _lang_from_ext(path: Path) -> str:
         ".dockerfile": "dockerfile", ".ps1": "powershell",
     }
     name = path.name.lower()
-    if name == "dockerfile":
+    if name in ("dockerfile", ".dockerfile"):
         return "dockerfile"
     return mapping.get(path.suffix.lower(), "text")
 
@@ -161,8 +161,15 @@ def _run_import(file_path: str, db_path: Path) -> None:
         print(f"snip: invalid JSON — {e}", file=sys.stderr)
         sys.exit(1)
 
+    if not isinstance(data, list):
+        print("snip: JSON must be an array of snippet objects", file=sys.stderr)
+        sys.exit(1)
+
     db = Database(db_path)
     for i, item in enumerate(data):
+        if not isinstance(item, dict):
+            print(f"snip: skipping entry {i} — expected an object", file=sys.stderr)
+            continue
         if "title" not in item or "content" not in item:
             print(f"snip: skipping entry {i} — missing title or content", file=sys.stderr)
             continue
@@ -314,7 +321,7 @@ def _run_theme_import(file_path: str) -> None:
         sys.exit(1)
     try:
         name = themes.import_theme(src)
-    except (ValueError, Exception) as e:
+    except Exception as e:
         print(f"snip: invalid theme file — {e}", file=sys.stderr)
         sys.exit(1)
     themes.set_active(name)
