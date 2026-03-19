@@ -56,10 +56,25 @@ snip -q ports | xclip -selection clipboard
 
 Useful if you want to copy without the built-in clipboard logic.
 
+## Sync across machines with git
+
+Since v0.7.0, snippets are plain files in `~/.config/snip/snippets/`. Track them with git for free sync, history, and diffs:
+
+```bash
+cd ~/.config/snip
+git init
+git add snippets/
+git commit -m "initial snippets"
+git remote add origin git@github.com:you/snippets.git
+git push -u origin main
+```
+
+On another machine: `git clone` the repo into `~/.config/snip/` and snip picks it up automatically.
+
 ## Back up before big changes
 
 ```bash
 snip --export > ~/snip-backup-$(date +%F).json
 ```
 
-Run this before importing or doing bulk edits.
+Or if you're already using git for your snippets, just check the log — every change is already tracked.

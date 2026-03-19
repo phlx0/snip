@@ -66,6 +66,8 @@ done
 0 9 * * * snip --export > ~/dotfiles/snippets-$(date +%F).json
 ```
 
+If you're tracking `~/.config/snip/snippets/` with git (v0.7.0+), a cron export is less necessary — every snippet edit is already a committable change.
+
 ## Check if a snippet exists
 
 ```bash
