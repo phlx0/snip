@@ -7,8 +7,7 @@ from snip.storage.database import Database
 
 @pytest.fixture
 def tmp_db(tmp_path: Path) -> Database:
-    """In-memory SQLite database scoped to each test."""
-    return Database(tmp_path / "test.db")
+    return Database(tmp_path / "snippets")
 
 
 @pytest.fixture

@@ -195,7 +195,7 @@ class TestImport:
         _run_export(tmp_db_path)
         exported = capsys.readouterr().out
 
-        tmp_db2 = tmp_path / "db2.db"
+        tmp_db2 = tmp_path / "db2_snippets"
         import_file = tmp_path / "export.json"
         import_file.write_text(exported)
         _run_import(str(import_file), tmp_db2)
@@ -212,4 +212,4 @@ class TestImport:
 
 @pytest.fixture
 def tmp_db_path(tmp_path: Path) -> Path:
-    return tmp_path / "test.db"
+    return tmp_path / "snippets"

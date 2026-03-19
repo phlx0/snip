@@ -143,6 +143,12 @@ class Database:
 
     def _init_index(self) -> None:
         with self._connect() as conn:
+            pragma = {
+                row["name"]: row["type"]
+                for row in conn.execute("PRAGMA table_info(snippets)").fetchall()
+            }
+            if pragma.get("id") == "INTEGER":
+                conn.execute("DROP TABLE snippets")
             conn.execute("""
                 CREATE TABLE IF NOT EXISTS snippets (
                     id          TEXT PRIMARY KEY,
