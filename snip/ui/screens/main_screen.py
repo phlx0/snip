@@ -60,7 +60,7 @@ class MainScreen(Screen):
         )
         self.query_one("#too-small-overlay").display = too_small
 
-    def _refresh_list(self, query: str = "", select_id: int | None = None) -> None:
+    def _refresh_list(self, query: str = "", select_id: str | None = None) -> None:
         snippets = self._db.search(query) if query else self._db.get_all()
         sl: SnippetList = self.query_one("#snippet-list", SnippetList)
         sl.snippets = snippets

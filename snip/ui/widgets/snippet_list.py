@@ -60,7 +60,7 @@ class SnippetList(Widget):
             return item.snippet
         return None
 
-    def highlight_by_id(self, snippet_id: int | None) -> None:
+    def highlight_by_id(self, snippet_id: str | None) -> None:
         """Move the list cursor to the item matching snippet_id."""
         if snippet_id is None:
             return

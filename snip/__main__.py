@@ -4,7 +4,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-VERSION = "0.6.3"
+VERSION = "0.7.0"
 
 # Set to True by -q / --quiet to suppress informational stderr messages
 _quiet = False
@@ -15,9 +15,9 @@ def _info(msg: str) -> None:
         print(msg, file=sys.stderr)
 
 
-def _run_tui(db_path: Path, theme_name: str | None = None) -> None:
+def _run_tui(snippets_dir: Path, theme_name: str | None = None) -> None:
     from snip.app import SnipApp
-    SnipApp(db_path=db_path, theme_name=theme_name).run()
+    SnipApp(snippets_dir=snippets_dir, theme_name=theme_name).run()
 
 
 def _run_list(db_path: Path, tag: str = "") -> None:
@@ -296,7 +296,7 @@ _snip() {
         '--json:output snippet as JSON'
         '--version:show version'
         '--quiet:suppress informational output'
-        '--db:use a custom database path'
+        '--db:use a custom snippets directory'
         'run:run a snippet as a shell command'
     )
     _arguments '1: :(${flags[@]} ${titles[@]})'
@@ -356,14 +356,14 @@ def _run_init(shell: str) -> None:
 
 def main() -> None:
     global _quiet
-    from snip.app import _DEFAULT_DB
+    from snip.app import _DEFAULT_SNIPPETS_DIR
 
-    db_path: Path = _DEFAULT_DB
+    snippets_dir: Path = _DEFAULT_SNIPPETS_DIR
     theme_name: str | None = None
     args = sys.argv[1:]
 
     if len(args) >= 2 and args[0] == "--db":
-        db_path = Path(args[1])
+        snippets_dir = Path(args[1])
         args = args[2:]
 
     if len(args) >= 2 and args[0] == "--theme":
@@ -376,7 +376,7 @@ def main() -> None:
 
     try:
         if not args:
-            _run_tui(db_path, theme_name)
+            _run_tui(snippets_dir, theme_name)
         elif args[0] in ("--help", "-h"):
             print(f"""\
 snip {VERSION} — terminal snippet vault
@@ -395,7 +395,7 @@ OPTIONS
   --import <file|->>            import snippets from JSON
   --from-history                pick a shell history command and save it
   --theme <name>                launch TUI with a specific theme
-  --db <path>                   use a custom database file
+  --db <dir>                    use a custom snippets directory
   -q, --quiet                   suppress informational output
   --version                     show version
   --help                        show this help
@@ -421,21 +421,21 @@ EXAMPLES
             print(f"snip {VERSION}")
         elif args[0] == "--list":
             tag = args[1] if len(args) >= 2 else ""
-            _run_list(db_path, tag)
+            _run_list(snippets_dir, tag)
         elif args[0] in ("--exec", "run") and len(args) >= 2:
-            _run_exec(" ".join(args[1:]), db_path)
+            _run_exec(" ".join(args[1:]), snippets_dir)
         elif args[0] == "--add" and len(args) >= 2:
-            _run_add(args[1], db_path)
+            _run_add(args[1], snippets_dir)
         elif args[0] == "--export":
-            _run_export(db_path)
+            _run_export(snippets_dir)
         elif args[0] == "--import" and len(args) >= 2:
-            _run_import(args[1], db_path)
+            _run_import(args[1], snippets_dir)
         elif args[0] == "--from-history":
-            _run_from_history(db_path)
+            _run_from_history(snippets_dir)
         elif args[0] == "--delete" and len(args) >= 2:
-            _run_delete(" ".join(args[1:]), db_path)
+            _run_delete(" ".join(args[1:]), snippets_dir)
         elif args[0] == "--json" and len(args) >= 2:
-            _run_json(" ".join(args[1:]), db_path)
+            _run_json(" ".join(args[1:]), snippets_dir)
         elif args[0] == "theme":
             if len(args) < 2 or args[1] == "list":
                 _run_theme_list()
@@ -449,7 +449,7 @@ EXAMPLES
         elif args[0] == "init" and len(args) >= 2:
             _run_init(args[1])
         else:
-            _run_copy(" ".join(args), db_path)
+            _run_copy(" ".join(args), snippets_dir)
     except ImportError as e:
         print(f"snip: missing dependency — {e}", file=sys.stderr)
         print("Run: pip install textual pyperclip", file=sys.stderr)

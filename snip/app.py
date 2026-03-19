@@ -7,11 +7,10 @@ from textual.app import App
 from snip.storage.database import Database
 from snip.ui.screens.main_screen import MainScreen
 
-_DEFAULT_DB = Path.home() / ".config" / "snip" / "snip.db"
+_DEFAULT_SNIPPETS_DIR = Path.home() / ".config" / "snip" / "snippets"
 
 
 def _seed_demo(db: Database) -> None:
-    """Populate a fresh database with helpful example snippets."""
     from snip.models.snippet import Snippet
 
     examples: list[Snippet] = [
@@ -64,18 +63,17 @@ class SnipApp(App):
     """snip — a terminal snippet manager."""
 
     TITLE = "snip"
-    # CSS is injected dynamically in __init__ with theme variables prepended.
 
-    def __init__(self, db_path: Path = _DEFAULT_DB, theme_name: str | None = None) -> None:
+    def __init__(self, snippets_dir: Path = _DEFAULT_SNIPPETS_DIR, theme_name: str | None = None) -> None:
         from snip import themes as _themes
         _theme = _themes.load(theme_name or _themes.get_active_name())
         _themes.current = _theme
         type(self).CSS = _themes.build_css(_theme)
 
         super().__init__()
-        is_new_db = not db_path.exists()
-        self._db = Database(db_path)
-        if is_new_db:
+        is_new = not snippets_dir.exists()
+        self._db = Database(snippets_dir)
+        if is_new and self._db.count() == 0:
             _seed_demo(self._db)
 
     def on_mount(self) -> None:

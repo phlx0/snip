@@ -18,7 +18,7 @@ class Snippet:
     description: str = ""
     tags: list[str] = field(default_factory=list)
     pinned: bool = False
-    id: int | None = None
+    id: str | None = None
     created_at: datetime | None = None
     updated_at: datetime | None = None
 
