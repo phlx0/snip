@@ -20,21 +20,34 @@ def copy_to_clipboard(text: str) -> bool:
         print(f"snip: pyperclip error — {e}", file=sys.stderr)
 
     # Fallback: platform native commands
-    try:
-        if sys.platform == "darwin":
+    if sys.platform == "darwin":
+        try:
             subprocess.run(["pbcopy"], input=text.encode(), check=True)
             return True
-        if sys.platform == "win32":
-            subprocess.run(
-                ["clip"], input=text.encode("utf-16"), check=True
-            )
+        except Exception as e:
+            print(f"snip: clipboard error — {e}", file=sys.stderr)
+    elif sys.platform == "win32":
+        try:
+            subprocess.run(["clip"], input=text.encode("utf-16"), check=True)
             return True
-        # Linux – try xclip or xsel
-        for cmd in (["xclip", "-selection", "clipboard"], ["xsel", "--clipboard", "--input"]):
-            result = subprocess.run(cmd, input=text.encode(), capture_output=True)
-            if result.returncode == 0:
-                return True
-    except Exception as e:
-        print(f"snip: clipboard error — {e}", file=sys.stderr)
+        except Exception as e:
+            print(f"snip: clipboard error — {e}", file=sys.stderr)
+    else:
+        # Linux – try xclip then xsel.  Each command is wrapped in its own
+        # try/except so that a missing tool (FileNotFoundError) causes us to
+        # fall through to the next candidate rather than aborting the loop.
+        for cmd in (
+            ["xclip", "-selection", "clipboard"],
+            ["xsel", "--clipboard", "--input"],
+        ):
+            try:
+                result = subprocess.run(cmd, input=text.encode(), capture_output=True)
+                if result.returncode == 0:
+                    return True
+            except FileNotFoundError:
+                continue
+            except Exception as e:
+                print(f"snip: clipboard error — {e}", file=sys.stderr)
+                break
 
     return False
