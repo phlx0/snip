@@ -26,3 +26,33 @@ class TestCopyToClipboard:
                 with patch("sys.platform", "linux"):
                     result = copy_to_clipboard("hello")
         assert result is False
+    def test_falls_back_to_xsel_when_xclip_missing(self):
+        def fake_run(cmd, **kwargs):
+            if cmd[0] == "xclip":
+                raise FileNotFoundError
+            return MagicMock(returncode=0)
+
+        with patch.dict("sys.modules", {"pyperclip": None}):
+            with patch("subprocess.run", side_effect=fake_run):
+                with patch("sys.platform", "linux"):
+                    result = copy_to_clipboard("hello")
+        assert result is True
+
+    def test_uses_xclip_when_xsel_missing(self):
+        def fake_run(cmd, **kwargs):
+            if cmd[0] == "xclip":
+                return MagicMock(returncode=0)
+            raise FileNotFoundError
+
+        with patch.dict("sys.modules", {"pyperclip": None}):
+            with patch("subprocess.run", side_effect=fake_run):
+                with patch("sys.platform", "linux"):
+                    result = copy_to_clipboard("hello")
+        assert result is True
+
+    def test_returns_false_when_neither_tool_installed(self):
+        with patch.dict("sys.modules", {"pyperclip": None}):
+            with patch("subprocess.run", side_effect=FileNotFoundError):
+                with patch("sys.platform", "linux"):
+                    result = copy_to_clipboard("hello")
+        assert result is False
