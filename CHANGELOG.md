@@ -9,6 +9,13 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+
+- Clipboard fallback on Linux now correctly tries `xsel` when `xclip` is not
+  installed. Previously both commands shared a single `try/except`, so a
+  `FileNotFoundError` from `xclip` aborted the loop before `xsel` was ever
+  attempted.
+
 ---
 
 ## [0.7.0] — 2026-03-19
