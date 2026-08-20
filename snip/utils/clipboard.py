@@ -33,9 +33,6 @@ def copy_to_clipboard(text: str) -> bool:
         except Exception as e:
             print(f"snip: clipboard error — {e}", file=sys.stderr)
     else:
-        # Linux – try xclip then xsel.  Each command is wrapped in its own
-        # try/except so that a missing tool (FileNotFoundError) causes us to
-        # fall through to the next candidate rather than aborting the loop.
         for cmd in (
             ["xclip", "-selection", "clipboard"],
             ["xsel", "--clipboard", "--input"],
