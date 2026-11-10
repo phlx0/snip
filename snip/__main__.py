@@ -165,6 +165,7 @@ def _run_import(file_path: str, snippets_dir: Path) -> None:
         sys.exit(1)
 
     db = Database(snippets_dir)
+    imported = 0
     for i, item in enumerate(data):
         if not isinstance(item, dict):
             print(f"snip: skipping entry {i} — expected an object", file=sys.stderr)
@@ -183,8 +184,9 @@ def _run_import(file_path: str, snippets_dir: Path) -> None:
             pinned=bool(item.get("pinned", False)),
         ))
         _info(f"  imported '{item['title']}'")
+        imported += 1
 
-    _info(f"\nDone. {len(data)} snippet(s) imported.")
+    _info(f"\nDone. {imported} snippet(s) imported.")
 
 
 def _read_history() -> list[str]:
