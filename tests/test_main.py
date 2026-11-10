@@ -189,6 +189,20 @@ class TestImport:
         snippet = Database(tmp_db_path).get_all()[0]
         assert snippet.tags == ["a", "b"]
 
+    def test_summary_counts_only_imported_snippets(
+        self, tmp_path, tmp_db_path, capsys
+    ):
+        f = self._write_json(tmp_path, [
+            {"title": "kept", "content": "ok"},
+            "not an object",
+            {"title": "missing content"},
+        ])
+        _run_import(str(f), tmp_db_path)
+        captured = capsys.readouterr()
+        assert "Done. 1 snippet(s) imported." in captured.err
+        db = Database(tmp_db_path)
+        assert db.count() == 1
+
     def test_round_trip(self, tmp_path, tmp_db_path, capsys):
         db = Database(tmp_db_path)
         db.create(Snippet(title="round", content="trip", tags=["x"], pinned=True))
